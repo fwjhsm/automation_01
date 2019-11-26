@@ -78,7 +78,7 @@ def exeData(dict1):
 
 def getResquest():
     url = "http://192.168.199.240:8061/sellerApi/sensitiveWord/replace"
-    data = {"notice":"生孩子没屁眼,傻逼,日你1111111妈,妈了个逼,妈B,贱人,贱货,狗日的"}
+    data = {"notice":"''''ssssss''''"}
     result = requests.post(url = url,data = json.dumps(data),headers = getHeaders())
 
     print(result.text)
