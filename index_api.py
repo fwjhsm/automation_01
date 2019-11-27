@@ -5,7 +5,9 @@ import requests
 
 server = flask.Flask(__name__)
 
+"""只可用于内部网站"""
 def getHeaders():
+    # 必传的请求头
     return {"sourceType":"WEB"}
 
 @server.route("/")
@@ -49,26 +51,35 @@ def exeData(dict1):
     :return:
     """
     # 获取字典中的url
+    # 判断网址是否为空
     if dict1:
         url = dict1["url"]
 
         # 判断请求方法，根据方法名使用param或者data参数传入
         if dict1["fun"] == "post":
             param = dict1["testdata"]
-            print(param)
-            res = requests.post(url = url,data = param,headers = getHeaders())
-            data1 = dict1["exr"]
-            data = res.text
+            # 加个异常判断
+            try:
+            # print(param)
+                res = requests.post(url = url,data = param,headers = getHeaders())
+                data1 = dict1["exr"]
+                data = res.text
+            except Exception:
+                data = data1 = {"message":"数据异常"}
+                return data,data1
             return data,data1
         else:
+            # 此时是get请求，参数使用params传入
             param = dict1["testdata"]
             if param:
+                # 判断有参数
                 res = requests.get(url = url,params=param,headers = getHeaders())
                 data = res.text
                 data1 = dict1["exr"]
                 print(res.url)
                 return data,data1
             else:
+                # 若无参数则不传入params
                 res = requests.get(url = url,headers = getHeaders())
                 data = res.text
                 data1 = dict1["exr"]
