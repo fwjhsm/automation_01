@@ -65,24 +65,28 @@ def exeData(dict1):
                 data1 = dict1["exr"]
                 data = res.text
             except Exception:
-                data = data1 = {"message":"数据异常"}
+                data = data1 = {"message":"数据异常、POST请求"}
                 return data,data1
             return data,data1
         else:
             # 此时是get请求，参数使用params传入
             param = dict1["testdata"]
-            if param:
-                # 判断有参数
-                res = requests.get(url = url,params=param,headers = getHeaders())
-                data = res.text
-                data1 = dict1["exr"]
-                print(res.url)
-                return data,data1
-            else:
-                # 若无参数则不传入params
-                res = requests.get(url = url,headers = getHeaders())
-                data = res.text
-                data1 = dict1["exr"]
+            try:
+                if param:
+                    # 判断有参数
+                    res = requests.get(url = url,params=param,headers = getHeaders())
+                    data = res.text
+                    data1 = dict1["exr"]
+                    print(res.url)
+                    return data,data1
+                else:
+                    # 若无参数则不传入params
+                    res = requests.get(url = url,headers = getHeaders())
+                    data = res.text
+                    data1 = dict1["exr"]
+                    return data,data1
+            except Exception:
+                data = data1 = {"message":"数据异常、GET请求"}
                 return data,data1
                 # response = requests.post(url = address_ip.registered(),data = json.dumps(data),headers= getHeaders())
 
